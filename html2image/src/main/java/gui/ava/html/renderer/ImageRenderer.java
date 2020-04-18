@@ -1,5 +1,6 @@
 package gui.ava.html.renderer;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.OutputStream;
@@ -27,6 +28,8 @@ public interface ImageRenderer extends LayoutHolder {
 	BufferedImage getBufferedImage(int imageType);
 
 	BufferedImage getBufferedImage();
+
+	void setRenderingHints(RenderingHints renderingHints);
 
 	void saveImage(OutputStream outputStream, boolean closeStream);
 

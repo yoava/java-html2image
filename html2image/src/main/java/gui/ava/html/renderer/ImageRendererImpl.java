@@ -10,7 +10,11 @@ import org.xhtmlrenderer.util.FSImageWriter;
 import javax.imageio.ImageWriteParam;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * @author Yoav Aharoni
@@ -34,6 +38,8 @@ public class ImageRendererImpl implements ImageRenderer {
 	private BufferedImage bufferedImage;
 	private int cacheImageType = -1;
 	private Document cacheDocument;
+
+	private RenderingHints renderingHints;
 
 	public ImageRendererImpl(DocumentHolder documentHolder) {
 		this.documentHolder = documentHolder;
@@ -139,6 +145,9 @@ public class ImageRendererImpl implements ImageRenderer {
 			}
 
 			Graphics2D graphics2D = (Graphics2D) bufferedImage.getGraphics();
+			if (renderingHints != null) {
+				graphics2D.setRenderingHints(renderingHints);
+			}
 			renderer.layout(graphics2D, dimension);
 			renderer.render(graphics2D);
 			rootBox = renderer.getPanel().getRootBox();
@@ -166,6 +175,11 @@ public class ImageRendererImpl implements ImageRenderer {
 
 	public BufferedImage getBufferedImage() {
 		return getBufferedImage(BufferedImage.TYPE_INT_ARGB);
+	}
+
+	@Override
+	public void setRenderingHints(RenderingHints renderingHints) {
+		this.renderingHints = renderingHints;
 	}
 
 	@Override
